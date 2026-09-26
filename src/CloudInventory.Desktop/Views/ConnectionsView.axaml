@@ -3,59 +3,45 @@
              xmlns:vm="using:CloudInventory.Desktop.ViewModels"
              x:Class="CloudInventory.Desktop.Views.ConnectionsView"
              x:DataType="vm:ConnectionsViewModel">
-    <StackPanel Spacing="16">
-        <Grid ColumnDefinitions="*,Auto">
-            <StackPanel Spacing="3">
-                <TextBlock Text="AWS profiles"
-                           FontSize="16"
-                           FontWeight="SemiBold"
-                           Foreground="{DynamicResource AppPrimaryTextBrush}" />
-                <TextBlock Text="{Binding Profiles.Count, StringFormat='{}{0} profiles discovered'}"
-                           FontSize="12"
-                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
-            </StackPanel>
+    <Grid RowDefinitions="Auto,Auto,*" RowSpacing="16">
+        <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
+            <TextBlock Text="{Binding Profiles.Count, StringFormat='{}{0} AWS profiles'}"
+                       VerticalAlignment="Center"
+                       FontSize="12"
+                       Foreground="{DynamicResource AppSecondaryTextBrush}" />
             <Button Grid.Column="1"
-                    Content="Reload profiles"
+                    Content="Reload"
                     Command="{Binding RefreshCommand}"
                     IsEnabled="{Binding !IsLoading}"
-                    Padding="14,7" />
+                    Padding="12,6" />
         </Grid>
 
-        <Border IsVisible="{Binding HasError}"
+        <Border Grid.Row="1"
+                IsVisible="{Binding HasError}"
                 Padding="14,12"
                 Background="#FFF4E5"
                 BorderBrush="#E6A23C"
-                BorderThickness="1"
-                CornerRadius="4">
+                BorderThickness="3,0,0,0">
             <TextBlock Text="{Binding ErrorMessage}"
                        TextWrapping="Wrap"
                        Foreground="#7A4D00" />
         </Border>
 
-        <Border IsVisible="{Binding IsLoading}"
-                MinHeight="220"
-                Background="{DynamicResource AppSurfaceBrush}"
-                BorderBrush="{DynamicResource AppBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="6">
+        <Grid Grid.Row="2">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        IsVisible="{Binding IsLoading}"
+                        Margin="0,80"
                         Spacing="10">
                 <ProgressBar Width="180" IsIndeterminate="True" />
                 <TextBlock Text="Loading AWS profiles"
                            Foreground="{DynamicResource AppSecondaryTextBrush}" />
             </StackPanel>
-        </Border>
 
-        <Border IsVisible="{Binding IsEmpty}"
-                MinHeight="260"
-                Padding="24"
-                Background="{DynamicResource AppSurfaceBrush}"
-                BorderBrush="{DynamicResource AppBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="6">
             <StackPanel HorizontalAlignment="Center"
                         VerticalAlignment="Center"
+                        IsVisible="{Binding IsEmpty}"
+                        Margin="0,80"
                         MaxWidth="420"
                         Spacing="8">
                 <TextBlock Text="No AWS profiles found"
@@ -67,33 +53,31 @@
                            TextWrapping="Wrap"
                            Foreground="{DynamicResource AppSecondaryTextBrush}" />
             </StackPanel>
-        </Border>
 
-        <Border IsVisible="{Binding HasProfiles}"
-                Background="{DynamicResource AppSurfaceBrush}"
-                BorderBrush="{DynamicResource AppBorderBrush}"
-                BorderThickness="1"
-                CornerRadius="6">
-            <Grid RowDefinitions="Auto,*">
-                <Grid Grid.Row="0"
-                      ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
-                      ColumnSpacing="16"
-                      Margin="18,12">
-                    <TextBlock Grid.Column="0" Classes="section-label" Text="PROFILE" />
-                    <TextBlock Grid.Column="1" Classes="section-label" Text="AUTHENTICATION" />
-                    <TextBlock Grid.Column="2" Classes="section-label" Text="REGION" />
-                    <TextBlock Grid.Column="3" Classes="section-label" Text="ACCOUNT" />
-                    <TextBlock Grid.Column="4" Classes="section-label" Text="ROLE" />
-                </Grid>
+            <Grid IsVisible="{Binding HasProfiles}" RowDefinitions="Auto,*">
+                <Border Grid.Row="0"
+                        Padding="16,10"
+                        Background="{DynamicResource AppSubtleSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="0,1">
+                    <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
+                          ColumnSpacing="16">
+                        <TextBlock Grid.Column="0" Classes="section-label" Text="PROFILE" />
+                        <TextBlock Grid.Column="1" Classes="section-label" Text="AUTHENTICATION" />
+                        <TextBlock Grid.Column="2" Classes="section-label" Text="REGION" />
+                        <TextBlock Grid.Column="3" Classes="section-label" Text="ACCOUNT" />
+                        <TextBlock Grid.Column="4" Classes="section-label" Text="ROLE" />
+                    </Grid>
+                </Border>
 
                 <ItemsControl Grid.Row="1" ItemsSource="{Binding Profiles}">
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:ConnectionProfileViewModel">
                             <Border BorderBrush="{DynamicResource AppBorderBrush}"
-                                    BorderThickness="0,1,0,0">
+                                                                        BorderThickness="0,0,0,1">
                                 <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
                                       ColumnSpacing="16"
-                                      Margin="18,14">
+                                                                            Margin="16,13">
                                     <TextBlock Grid.Column="0"
                                                Text="{Binding Name}"
                                                FontWeight="SemiBold"
@@ -116,6 +100,6 @@
                     </ItemsControl.ItemTemplate>
                 </ItemsControl>
             </Grid>
-        </Border>
-    </StackPanel>
+        </Grid>
+    </Grid>
 </UserControl>

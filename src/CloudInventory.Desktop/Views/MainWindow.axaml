@@ -8,10 +8,10 @@
         x:DataType="vm:MainViewModel"
         Icon="/Assets/logo.webp"
         Title="Cloud Inventory"
-        Width="1440"
-        Height="900"
-        MinWidth="1080"
-        MinHeight="680"
+        Width="1360"
+        Height="820"
+        MinWidth="1040"
+        MinHeight="640"
         Background="{DynamicResource AppBackgroundBrush}"
         FontFamily="avares://Avalonia.Fonts.Inter/Assets#Inter">
 
@@ -21,38 +21,36 @@
             <Setter Property="FontWeight" Value="SemiBold" />
             <Setter Property="Foreground" Value="{DynamicResource AppSecondaryTextBrush}" />
         </Style>
-        <Style Selector="TextBlock.metric-value">
-            <Setter Property="FontSize" Value="22" />
-            <Setter Property="FontWeight" Value="SemiBold" />
-            <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
-        </Style>
         <Style Selector="ListBox.resource-nav">
             <Setter Property="Background" Value="Transparent" />
             <Setter Property="BorderThickness" Value="0" />
         </Style>
         <Style Selector="ListBox.resource-nav > ListBoxItem">
-            <Setter Property="Margin" Value="8,2" />
-            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="Margin" Value="10,1" />
+            <Setter Property="Padding" Value="10,7" />
             <Setter Property="CornerRadius" Value="4" />
             <Setter Property="HorizontalContentAlignment" Value="Stretch" />
         </Style>
+        <Style Selector="ListBox.resource-nav > ListBoxItem:selected">
+            <Setter Property="Background" Value="{DynamicResource AppAccentSurfaceBrush}" />
+        </Style>
     </Window.Styles>
 
-    <Grid RowDefinitions="52,*" ColumnDefinitions="236,*">
-        <Border Grid.Row="0"
-                Grid.ColumnSpan="2"
-                Background="{DynamicResource AppSurfaceBrush}"
+    <Grid ColumnDefinitions="220,*">
+        <Border Grid.Column="0"
+                Background="{DynamicResource AppSidebarBrush}"
                 BorderBrush="{DynamicResource AppBorderBrush}"
-                BorderThickness="0,0,0,1">
-            <Grid ColumnDefinitions="236,*,Auto" Margin="16,0">
-                <StackPanel Grid.Column="0"
+                BorderThickness="0,0,1,0">
+            <Grid RowDefinitions="64,Auto,*,Auto">
+                <StackPanel Grid.Row="0"
+                            Margin="16,0"
                             Orientation="Horizontal"
                             VerticalAlignment="Center"
-                            Spacing="10">
-                          <Image Width="30"
-                              Height="30"
-                              Source="/Assets/logo.webp"
-                              Stretch="Uniform" />
+                            Spacing="11">
+                    <Image Width="32"
+                           Height="32"
+                           Source="/Assets/logo.webp"
+                           Stretch="Uniform" />
                     <TextBlock Text="Cloud Inventory"
                                VerticalAlignment="Center"
                                FontSize="14"
@@ -60,48 +58,12 @@
                                Foreground="{DynamicResource AppPrimaryTextBrush}" />
                 </StackPanel>
 
-                <Grid Grid.Column="1"
-                      ColumnDefinitions="Auto,Auto,*"
-                      ColumnSpacing="8"
-                      VerticalAlignment="Center">
-                    <Button Grid.Column="0" Padding="12,6">
-                        <StackPanel Orientation="Horizontal" Spacing="8">
-                            <Border Width="8"
-                                    Height="8"
-                                    CornerRadius="4"
-                                    Background="#B8C0C8" />
-                            <TextBlock Text="No connection" />
-                        </StackPanel>
-                    </Button>
-                    <Button Grid.Column="1" Content="All regions" Padding="12,6" />
-                </Grid>
-
-                <StackPanel Grid.Column="2"
-                            Orientation="Horizontal"
-                            VerticalAlignment="Center"
-                            Spacing="12">
-                    <TextBlock Text="{Binding LastRefreshed}"
-                               VerticalAlignment="Center"
-                               FontSize="12"
-                               Foreground="{DynamicResource AppSecondaryTextBrush}" />
-                    <Button Content="Refresh"
-                            Command="{Binding RefreshCommand}"
-                            Padding="14,6" />
-                </StackPanel>
-            </Grid>
-        </Border>
-
-        <Border Grid.Row="1"
-                Grid.Column="0"
-                Background="{DynamicResource AppSurfaceBrush}"
-                BorderBrush="{DynamicResource AppBorderBrush}"
-                BorderThickness="0,0,1,0">
-            <Grid RowDefinitions="Auto,*,Auto">
-                <TextBlock Grid.Row="0"
+                <TextBlock Grid.Row="1"
                            Classes="section-label"
-                           Text="RESOURCES"
-                           Margin="18,18,18,8" />
-                <ListBox Grid.Row="1"
+                           Text="INVENTORY"
+                           Margin="20,14,20,8" />
+
+                <ListBox Grid.Row="2"
                          Classes="resource-nav"
                          ItemsSource="{Binding NavigationItems}"
                          SelectedItem="{Binding SelectedNavigationItem}">
@@ -121,13 +83,11 @@
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
-                <Border Grid.Row="2"
-                        Margin="16"
-                        Padding="10"
-                        CornerRadius="4"
-                        Background="{DynamicResource AppSubtleSurfaceBrush}"
+
+                <Border Grid.Row="3"
+                        Padding="16,13"
                         BorderBrush="{DynamicResource AppBorderBrush}"
-                        BorderThickness="1">
+                        BorderThickness="0,1,0,0">
                     <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
                         <Border Width="8"
                                 Height="8"
@@ -147,28 +107,59 @@
             </Grid>
         </Border>
 
-        <ScrollViewer Grid.Row="1" Grid.Column="1">
-            <StackPanel Margin="32,28" Spacing="24">
-                <Grid ColumnDefinitions="*,Auto">
-                    <StackPanel Grid.Column="0" Spacing="4">
+        <Grid Grid.Column="1" RowDefinitions="72,*">
+            <Border Grid.Row="0"
+                    Background="{DynamicResource AppSurfaceBrush}"
+                    BorderBrush="{DynamicResource AppBorderBrush}"
+                    BorderThickness="0,0,0,1">
+                <Grid Margin="28,0"
+                      ColumnDefinitions="*,Auto"
+                      ColumnSpacing="24">
+                    <StackPanel VerticalAlignment="Center" Spacing="2">
                         <TextBlock Text="{Binding CurrentPageTitle}"
-                                   FontSize="26"
-                                   FontWeight="SemiBold"
-                                   Foreground="{DynamicResource AppPrimaryTextBrush}" />
+                                   FontSize="20"
+                                   FontWeight="SemiBold" />
                         <TextBlock Text="{Binding CurrentPageDescription}"
-                                   FontSize="13"
+                                   FontSize="12"
                                    Foreground="{DynamicResource AppSecondaryTextBrush}" />
                     </StackPanel>
-                    <Button Grid.Column="1"
-                            Content="Manage connections"
-                            Command="{Binding ManageConnectionsCommand}"
-                            VerticalAlignment="Center"
-                            Padding="14,7" />
-                </Grid>
 
-                <ContentControl Content="{Binding CurrentPage}" />
-            </StackPanel>
-        </ScrollViewer>
+                    <StackPanel Grid.Column="1"
+                                Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                Spacing="8">
+                        <Border Padding="10,6"
+                                Background="{DynamicResource AppSubtleSurfaceBrush}"
+                                BorderBrush="{DynamicResource AppBorderBrush}"
+                                BorderThickness="1"
+                                CornerRadius="4">
+                            <StackPanel Orientation="Horizontal" Spacing="7">
+                                <Border Width="7"
+                                        Height="7"
+                                        CornerRadius="4"
+                                        VerticalAlignment="Center"
+                                        Background="#9AA5B1" />
+                                <TextBlock Text="No connection" FontSize="12" />
+                            </StackPanel>
+                        </Border>
+                        <Button Content="All regions" Padding="11,6" />
+                        <TextBlock Text="{Binding LastRefreshed}"
+                                   Margin="8,0,0,0"
+                                   VerticalAlignment="Center"
+                                   FontSize="11"
+                                   Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                        <Button Content="Refresh"
+                                Command="{Binding RefreshCommand}"
+                                Padding="11,6" />
+                    </StackPanel>
+                </Grid>
+            </Border>
+
+            <ScrollViewer Grid.Row="1">
+                <ContentControl Margin="28,24"
+                                Content="{Binding CurrentPage}" />
+            </ScrollViewer>
+        </Grid>
     </Grid>
 
 </Window>
