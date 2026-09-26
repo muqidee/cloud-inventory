@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
 using Avalonia.Markup.Xaml;
 using CloudInventory.Application.Connections;
+using CloudInventory.Desktop.Services;
 using CloudInventory.Desktop.ViewModels;
 using CloudInventory.Desktop.Views;
 using CloudInventory.Infrastructure.Aws.Connections;
@@ -37,7 +38,10 @@ public partial class App : Avalonia.Application
     {
         var services = new ServiceCollection();
 
+        services.AddSingleton<IAwsConnectionService, AwsConnectionService>();
         services.AddSingleton<IAwsProfileCatalog, AwsProfileCatalog>();
+        services.AddSingleton<IUriLauncher, SystemUriLauncher>();
+        services.AddSingleton<ConnectionSessionViewModel>();
         services.AddSingleton<ConnectionsViewModel>();
         services.AddSingleton<OverviewViewModel>();
         services.AddSingleton<MainViewModel>();

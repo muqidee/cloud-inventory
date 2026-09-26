@@ -93,12 +93,19 @@
                                 Height="8"
                                 CornerRadius="4"
                                 VerticalAlignment="Center"
+                            IsVisible="{Binding !ConnectionSession.IsConnected}"
                                 Background="#B8C0C8" />
+                        <Border Width="8"
+                            Height="8"
+                            CornerRadius="4"
+                            VerticalAlignment="Center"
+                            IsVisible="{Binding ConnectionSession.IsConnected}"
+                            Background="#25875A" />
                         <StackPanel Grid.Column="1" Spacing="2">
                             <TextBlock Text="AWS session"
                                        FontSize="12"
                                        FontWeight="SemiBold" />
-                            <TextBlock Text="Not signed in"
+                            <TextBlock Text="{Binding ConnectionSession.SessionLabel}"
                                        FontSize="11"
                                        Foreground="{DynamicResource AppSecondaryTextBrush}" />
                         </StackPanel>
@@ -138,8 +145,16 @@
                                         Height="7"
                                         CornerRadius="4"
                                         VerticalAlignment="Center"
+                                    IsVisible="{Binding !ConnectionSession.IsConnected}"
                                         Background="#9AA5B1" />
-                                <TextBlock Text="No connection" FontSize="12" />
+                                <Border Width="7"
+                                    Height="7"
+                                    CornerRadius="4"
+                                    VerticalAlignment="Center"
+                                    IsVisible="{Binding ConnectionSession.IsConnected}"
+                                    Background="#25875A" />
+                                <TextBlock Text="{Binding ConnectionSession.ConnectionLabel}"
+                                       FontSize="12" />
                             </StackPanel>
                         </Border>
                         <Button Content="All regions" Padding="11,6" />

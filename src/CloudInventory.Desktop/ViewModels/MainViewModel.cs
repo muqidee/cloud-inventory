@@ -30,8 +30,10 @@ public partial class MainViewModel : ViewModelBase
 
     public MainViewModel(
         OverviewViewModel overviewViewModel,
-        ConnectionsViewModel connectionsViewModel)
+        ConnectionsViewModel connectionsViewModel,
+        ConnectionSessionViewModel connectionSession)
     {
+        ConnectionSession = connectionSession;
         _connectionsViewModel = connectionsViewModel;
         _connectionsNavigationItem = new(
             "Connections",
@@ -53,6 +55,8 @@ public partial class MainViewModel : ViewModelBase
 
         SelectedNavigationItem = NavigationItems[0];
     }
+
+    public ConnectionSessionViewModel ConnectionSession { get; }
 
     partial void OnSelectedNavigationItemChanged(NavigationItemViewModel? value)
     {

@@ -5,10 +5,15 @@
              x:DataType="vm:ConnectionsViewModel">
     <Grid RowDefinitions="Auto,Auto,*" RowSpacing="16">
         <Grid Grid.Row="0" ColumnDefinitions="*,Auto">
-            <TextBlock Text="{Binding Profiles.Count, StringFormat='{}{0} AWS profiles'}"
-                       VerticalAlignment="Center"
-                       FontSize="12"
-                       Foreground="{DynamicResource AppSecondaryTextBrush}" />
+            <StackPanel VerticalAlignment="Center" Spacing="2">
+                <TextBlock Text="{Binding Profiles.Count, StringFormat='{}{0} AWS profiles'}"
+                           FontSize="12"
+                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                <TextBlock Text="{Binding ConnectingProfileName, StringFormat='Connecting to {0}...'}"
+                           IsVisible="{Binding IsConnecting}"
+                           FontSize="12"
+                           Foreground="{DynamicResource AppAccentBrush}" />
+            </StackPanel>
             <Button Grid.Column="1"
                     Content="Reload"
                     Command="{Binding RefreshCommand}"
@@ -16,16 +21,26 @@
                     Padding="12,6" />
         </Grid>
 
-        <Border Grid.Row="1"
-                IsVisible="{Binding HasError}"
-                Padding="14,12"
-                Background="#FFF4E5"
-                BorderBrush="#E6A23C"
-                BorderThickness="3,0,0,0">
-            <TextBlock Text="{Binding ErrorMessage}"
-                       TextWrapping="Wrap"
-                       Foreground="#7A4D00" />
-        </Border>
+        <StackPanel Grid.Row="1" Spacing="8">
+            <Border IsVisible="{Binding HasError}"
+                    Padding="14,12"
+                    Background="#FFF4E5"
+                    BorderBrush="#E6A23C"
+                    BorderThickness="3,0,0,0">
+                <TextBlock Text="{Binding ErrorMessage}"
+                           TextWrapping="Wrap"
+                           Foreground="#7A4D00" />
+            </Border>
+            <Border IsVisible="{Binding HasConnectionError}"
+                    Padding="14,12"
+                    Background="#FFF0F0"
+                    BorderBrush="#C94B4B"
+                    BorderThickness="3,0,0,0">
+                <TextBlock Text="{Binding ConnectionErrorMessage}"
+                           TextWrapping="Wrap"
+                           Foreground="#842929" />
+            </Border>
+        </StackPanel>
 
         <Grid Grid.Row="2">
             <StackPanel HorizontalAlignment="Center"
@@ -60,13 +75,14 @@
                         Background="{DynamicResource AppSubtleSurfaceBrush}"
                         BorderBrush="{DynamicResource AppBorderBrush}"
                         BorderThickness="0,1">
-                    <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
+                      <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*,Auto"
                           ColumnSpacing="16">
                         <TextBlock Grid.Column="0" Classes="section-label" Text="PROFILE" />
                         <TextBlock Grid.Column="1" Classes="section-label" Text="AUTHENTICATION" />
                         <TextBlock Grid.Column="2" Classes="section-label" Text="REGION" />
                         <TextBlock Grid.Column="3" Classes="section-label" Text="ACCOUNT" />
                         <TextBlock Grid.Column="4" Classes="section-label" Text="ROLE" />
+                        <TextBlock Grid.Column="5" Classes="section-label" Text="ACTION" />
                     </Grid>
                 </Border>
 
@@ -74,10 +90,10 @@
                     <ItemsControl.ItemTemplate>
                         <DataTemplate x:DataType="vm:ConnectionProfileViewModel">
                             <Border BorderBrush="{DynamicResource AppBorderBrush}"
-                                                                        BorderThickness="0,0,0,1">
-                                <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
+                                    BorderThickness="0,0,0,1">
+                                <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*,Auto"
                                       ColumnSpacing="16"
-                                                                            Margin="16,13">
+                                      Margin="16,13">
                                     <TextBlock Grid.Column="0"
                                                Text="{Binding Name}"
                                                FontWeight="SemiBold"
@@ -94,6 +110,12 @@
                                     <TextBlock Grid.Column="4"
                                                Text="{Binding Role}"
                                                TextTrimming="CharacterEllipsis" />
+                                        <Button Grid.Column="5"
+                                            Content="Connect"
+                                            Command="{Binding $parent[UserControl].((vm:ConnectionsViewModel)DataContext).ConnectCommand}"
+                                            CommandParameter="{Binding}"
+                                            MinWidth="76"
+                                            Padding="10,5" />
                                 </Grid>
                             </Border>
                         </DataTemplate>
