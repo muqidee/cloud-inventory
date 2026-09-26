@@ -1,0 +1,121 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CloudInventory.Desktop.ViewModels"
+             x:Class="CloudInventory.Desktop.Views.ConnectionsView"
+             x:DataType="vm:ConnectionsViewModel">
+    <StackPanel Spacing="16">
+        <Grid ColumnDefinitions="*,Auto">
+            <StackPanel Spacing="3">
+                <TextBlock Text="AWS profiles"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource AppPrimaryTextBrush}" />
+                <TextBlock Text="{Binding Profiles.Count, StringFormat='{}{0} profiles discovered'}"
+                           FontSize="12"
+                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
+            </StackPanel>
+            <Button Grid.Column="1"
+                    Content="Reload profiles"
+                    Command="{Binding RefreshCommand}"
+                    IsEnabled="{Binding !IsLoading}"
+                    Padding="14,7" />
+        </Grid>
+
+        <Border IsVisible="{Binding HasError}"
+                Padding="14,12"
+                Background="#FFF4E5"
+                BorderBrush="#E6A23C"
+                BorderThickness="1"
+                CornerRadius="4">
+            <TextBlock Text="{Binding ErrorMessage}"
+                       TextWrapping="Wrap"
+                       Foreground="#7A4D00" />
+        </Border>
+
+        <Border IsVisible="{Binding IsLoading}"
+                MinHeight="220"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        Spacing="10">
+                <ProgressBar Width="180" IsIndeterminate="True" />
+                <TextBlock Text="Loading AWS profiles"
+                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
+            </StackPanel>
+        </Border>
+
+        <Border IsVisible="{Binding IsEmpty}"
+                MinHeight="260"
+                Padding="24"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        MaxWidth="420"
+                        Spacing="8">
+                <TextBlock Text="No AWS profiles found"
+                           HorizontalAlignment="Center"
+                           FontSize="16"
+                           FontWeight="SemiBold" />
+                <TextBlock Text="Configure a named profile or IAM Identity Center profile in your shared AWS configuration."
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
+            </StackPanel>
+        </Border>
+
+        <Border IsVisible="{Binding HasProfiles}"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+            <Grid RowDefinitions="Auto,*">
+                <Grid Grid.Row="0"
+                      ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
+                      ColumnSpacing="16"
+                      Margin="18,12">
+                    <TextBlock Grid.Column="0" Classes="section-label" Text="PROFILE" />
+                    <TextBlock Grid.Column="1" Classes="section-label" Text="AUTHENTICATION" />
+                    <TextBlock Grid.Column="2" Classes="section-label" Text="REGION" />
+                    <TextBlock Grid.Column="3" Classes="section-label" Text="ACCOUNT" />
+                    <TextBlock Grid.Column="4" Classes="section-label" Text="ROLE" />
+                </Grid>
+
+                <ItemsControl Grid.Row="1" ItemsSource="{Binding Profiles}">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate x:DataType="vm:ConnectionProfileViewModel">
+                            <Border BorderBrush="{DynamicResource AppBorderBrush}"
+                                    BorderThickness="0,1,0,0">
+                                <Grid ColumnDefinitions="2*,1.5*,1*,1.35*,1.35*"
+                                      ColumnSpacing="16"
+                                      Margin="18,14">
+                                    <TextBlock Grid.Column="0"
+                                               Text="{Binding Name}"
+                                               FontWeight="SemiBold"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding AuthenticationLabel}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Column="2"
+                                               Text="{Binding Region}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Column="3"
+                                               Text="{Binding Account}"
+                                               TextTrimming="CharacterEllipsis" />
+                                    <TextBlock Grid.Column="4"
+                                               Text="{Binding Role}"
+                                               TextTrimming="CharacterEllipsis" />
+                                </Grid>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </Grid>
+        </Border>
+    </StackPanel>
+</UserControl>

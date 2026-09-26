@@ -1,0 +1,80 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:vm="using:CloudInventory.Desktop.ViewModels"
+             x:Class="CloudInventory.Desktop.Views.OverviewView"
+             x:DataType="vm:OverviewViewModel">
+    <StackPanel Spacing="24">
+        <Border Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+            <Grid ColumnDefinitions="*,*,*,*">
+                <StackPanel Grid.Column="0" Margin="20,16" Spacing="5">
+                    <TextBlock Classes="section-label" Text="CONNECTIONS" />
+                    <TextBlock Classes="metric-value" Text="0" />
+                </StackPanel>
+                <Border Grid.Column="1"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1,0,0,0">
+                    <StackPanel Margin="20,16" Spacing="5">
+                        <TextBlock Classes="section-label" Text="ACTIVE ACCOUNT" />
+                        <TextBlock Classes="metric-value" Text="—" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="2"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1,0,0,0">
+                    <StackPanel Margin="20,16" Spacing="5">
+                        <TextBlock Classes="section-label" Text="REGIONS" />
+                        <TextBlock Classes="metric-value" Text="0" />
+                    </StackPanel>
+                </Border>
+                <Border Grid.Column="3"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1,0,0,0">
+                    <StackPanel Margin="20,16" Spacing="5">
+                        <TextBlock Classes="section-label" Text="OPEN ALARMS" />
+                        <TextBlock Classes="metric-value" Text="0" />
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <Border MinHeight="360"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="1"
+                CornerRadius="6">
+            <StackPanel HorizontalAlignment="Center"
+                        VerticalAlignment="Center"
+                        MaxWidth="360"
+                        Spacing="10">
+                <Border Width="42"
+                        Height="42"
+                        CornerRadius="21"
+                        Background="{DynamicResource AppAccentSurfaceBrush}">
+                    <TextBlock Text="+"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               FontSize="24"
+                               Foreground="{DynamicResource AppAccentBrush}" />
+                </Border>
+                <TextBlock Text="No infrastructure connection"
+                           HorizontalAlignment="Center"
+                           FontSize="16"
+                           FontWeight="SemiBold"
+                           Foreground="{DynamicResource AppPrimaryTextBrush}" />
+                <TextBlock Text="Add an AWS profile to load accounts, regions and resources."
+                           TextAlignment="Center"
+                           TextWrapping="Wrap"
+                           FontSize="13"
+                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                <Button Content="Open connections"
+                        Command="{Binding $parent[Window].((vm:MainViewModel)DataContext).ManageConnectionsCommand}"
+                        HorizontalAlignment="Center"
+                        Margin="0,6,0,0"
+                        Padding="16,8" />
+            </StackPanel>
+        </Border>
+    </StackPanel>
+</UserControl>
