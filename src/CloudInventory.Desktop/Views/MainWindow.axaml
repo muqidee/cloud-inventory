@@ -1,0 +1,248 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:CloudInventory.Desktop.ViewModels"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="1440" d:DesignHeight="900"
+        x:Class="CloudInventory.Desktop.Views.MainWindow"
+        x:DataType="vm:MainViewModel"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Cloud Inventory"
+        Width="1440"
+        Height="900"
+        MinWidth="1080"
+        MinHeight="680"
+        Background="{DynamicResource AppBackgroundBrush}"
+        FontFamily="avares://Avalonia.Fonts.Inter/Assets#Inter">
+
+    <Design.DataContext>
+        <vm:MainViewModel />
+    </Design.DataContext>
+
+    <Window.Styles>
+        <Style Selector="TextBlock.section-label">
+            <Setter Property="FontSize" Value="11" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource AppSecondaryTextBrush}" />
+        </Style>
+        <Style Selector="TextBlock.metric-value">
+            <Setter Property="FontSize" Value="22" />
+            <Setter Property="FontWeight" Value="SemiBold" />
+            <Setter Property="Foreground" Value="{DynamicResource AppPrimaryTextBrush}" />
+        </Style>
+        <Style Selector="ListBox.resource-nav">
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+        </Style>
+        <Style Selector="ListBox.resource-nav > ListBoxItem">
+            <Setter Property="Margin" Value="8,2" />
+            <Setter Property="Padding" Value="10,8" />
+            <Setter Property="CornerRadius" Value="4" />
+            <Setter Property="HorizontalContentAlignment" Value="Stretch" />
+        </Style>
+    </Window.Styles>
+
+    <Grid RowDefinitions="52,*" ColumnDefinitions="236,*">
+        <Border Grid.Row="0"
+                Grid.ColumnSpan="2"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="0,0,0,1">
+            <Grid ColumnDefinitions="236,*,Auto" Margin="16,0">
+                <StackPanel Grid.Column="0"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Spacing="10">
+                    <Border Width="28"
+                            Height="28"
+                            CornerRadius="5"
+                            Background="{DynamicResource AppAccentBrush}">
+                        <TextBlock Text="CI"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   FontSize="11"
+                                   FontWeight="Bold"
+                                   Foreground="White" />
+                    </Border>
+                    <TextBlock Text="Cloud Inventory"
+                               VerticalAlignment="Center"
+                               FontSize="14"
+                               FontWeight="SemiBold"
+                               Foreground="{DynamicResource AppPrimaryTextBrush}" />
+                </StackPanel>
+
+                <Grid Grid.Column="1"
+                      ColumnDefinitions="Auto,Auto,*"
+                      ColumnSpacing="8"
+                      VerticalAlignment="Center">
+                    <Button Grid.Column="0" Padding="12,6">
+                        <StackPanel Orientation="Horizontal" Spacing="8">
+                            <Border Width="8"
+                                    Height="8"
+                                    CornerRadius="4"
+                                    Background="#B8C0C8" />
+                            <TextBlock Text="No connection" />
+                        </StackPanel>
+                    </Button>
+                    <Button Grid.Column="1" Content="All regions" Padding="12,6" />
+                </Grid>
+
+                <StackPanel Grid.Column="2"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Center"
+                            Spacing="12">
+                    <TextBlock Text="{Binding LastRefreshed}"
+                               VerticalAlignment="Center"
+                               FontSize="12"
+                               Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                    <Button Content="Refresh"
+                            Command="{Binding RefreshCommand}"
+                            Padding="14,6" />
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <Border Grid.Row="1"
+                Grid.Column="0"
+                Background="{DynamicResource AppSurfaceBrush}"
+                BorderBrush="{DynamicResource AppBorderBrush}"
+                BorderThickness="0,0,1,0">
+            <Grid RowDefinitions="Auto,*,Auto">
+                <TextBlock Grid.Row="0"
+                           Classes="section-label"
+                           Text="RESOURCES"
+                           Margin="18,18,18,8" />
+                <ListBox Grid.Row="1"
+                         Classes="resource-nav"
+                         ItemsSource="{Binding NavigationItems}"
+                         SelectedItem="{Binding SelectedNavigationItem}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate x:DataType="vm:NavigationItemViewModel">
+                            <Grid RowDefinitions="Auto,Auto">
+                                <TextBlock Grid.Row="0"
+                                           Text="{Binding Label}"
+                                           FontSize="13"
+                                           FontWeight="Medium" />
+                                <TextBlock Grid.Row="1"
+                                           Text="{Binding Description}"
+                                           Margin="0,2,0,0"
+                                           FontSize="11"
+                                           Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Border Grid.Row="2"
+                        Margin="16"
+                        Padding="10"
+                        CornerRadius="4"
+                        Background="{DynamicResource AppSubtleSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1">
+                    <Grid ColumnDefinitions="Auto,*" ColumnSpacing="8">
+                        <Border Width="8"
+                                Height="8"
+                                CornerRadius="4"
+                                VerticalAlignment="Center"
+                                Background="#B8C0C8" />
+                        <StackPanel Grid.Column="1" Spacing="2">
+                            <TextBlock Text="AWS session"
+                                       FontSize="12"
+                                       FontWeight="SemiBold" />
+                            <TextBlock Text="Not signed in"
+                                       FontSize="11"
+                                       Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                        </StackPanel>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Border>
+
+        <ScrollViewer Grid.Row="1" Grid.Column="1">
+            <StackPanel Margin="32,28" Spacing="24">
+                <Grid ColumnDefinitions="*,Auto">
+                    <StackPanel Grid.Column="0" Spacing="4">
+                        <TextBlock Text="{Binding CurrentPageTitle}"
+                                   FontSize="26"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource AppPrimaryTextBrush}" />
+                        <TextBlock Text="{Binding CurrentPageDescription}"
+                                   FontSize="13"
+                                   Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                    </StackPanel>
+                    <Button Grid.Column="1"
+                            Content="Manage connections"
+                            VerticalAlignment="Center"
+                            Padding="14,7" />
+                </Grid>
+
+                <Border Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                    <Grid ColumnDefinitions="*,*,*,*">
+                        <StackPanel Grid.Column="0" Margin="20,16" Spacing="5">
+                            <TextBlock Classes="section-label" Text="CONNECTIONS" />
+                            <TextBlock Classes="metric-value" Text="0" />
+                        </StackPanel>
+                        <Border Grid.Column="1" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1,0,0,0">
+                            <StackPanel Margin="20,16" Spacing="5">
+                                <TextBlock Classes="section-label" Text="ACTIVE ACCOUNT" />
+                                <TextBlock Classes="metric-value" Text="—" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="2" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1,0,0,0">
+                            <StackPanel Margin="20,16" Spacing="5">
+                                <TextBlock Classes="section-label" Text="REGIONS" />
+                                <TextBlock Classes="metric-value" Text="0" />
+                            </StackPanel>
+                        </Border>
+                        <Border Grid.Column="3" BorderBrush="{DynamicResource AppBorderBrush}" BorderThickness="1,0,0,0">
+                            <StackPanel Margin="20,16" Spacing="5">
+                                <TextBlock Classes="section-label" Text="OPEN ALARMS" />
+                                <TextBlock Classes="metric-value" Text="0" />
+                            </StackPanel>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border MinHeight="360"
+                        Background="{DynamicResource AppSurfaceBrush}"
+                        BorderBrush="{DynamicResource AppBorderBrush}"
+                        BorderThickness="1"
+                        CornerRadius="6">
+                    <StackPanel HorizontalAlignment="Center"
+                                VerticalAlignment="Center"
+                                MaxWidth="360"
+                                Spacing="10">
+                        <Border Width="42"
+                                Height="42"
+                                CornerRadius="21"
+                                Background="{DynamicResource AppAccentSurfaceBrush}">
+                            <TextBlock Text="+"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       FontSize="24"
+                                       Foreground="{DynamicResource AppAccentBrush}" />
+                        </Border>
+                        <TextBlock Text="No infrastructure connection"
+                                   HorizontalAlignment="Center"
+                                   FontSize="16"
+                                   FontWeight="SemiBold"
+                                   Foreground="{DynamicResource AppPrimaryTextBrush}" />
+                        <TextBlock Text="Add an AWS profile to load accounts, regions and resources."
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   FontSize="13"
+                                   Foreground="{DynamicResource AppSecondaryTextBrush}" />
+                        <Button Content="Open connections"
+                                HorizontalAlignment="Center"
+                                Margin="0,6,0,0"
+                                Padding="16,8" />
+                    </StackPanel>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+    </Grid>
+
+</Window>

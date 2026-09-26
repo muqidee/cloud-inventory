@@ -1,0 +1,41 @@
+<Application xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="CloudInventory.Desktop.App"
+             xmlns:local="using:CloudInventory.Desktop"
+             RequestedThemeVariant="Default">
+
+    <Application.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.ThemeDictionaries>
+                <ResourceDictionary x:Key="Light">
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#F4F6F8" />
+                    <SolidColorBrush x:Key="AppSurfaceBrush" Color="#FFFFFF" />
+                    <SolidColorBrush x:Key="AppSubtleSurfaceBrush" Color="#F8FAFB" />
+                    <SolidColorBrush x:Key="AppBorderBrush" Color="#DCE2E8" />
+                    <SolidColorBrush x:Key="AppPrimaryTextBrush" Color="#17212B" />
+                    <SolidColorBrush x:Key="AppSecondaryTextBrush" Color="#5D6975" />
+                    <SolidColorBrush x:Key="AppAccentBrush" Color="#0B6E69" />
+                    <SolidColorBrush x:Key="AppAccentSurfaceBrush" Color="#E4F3F1" />
+                </ResourceDictionary>
+                <ResourceDictionary x:Key="Dark">
+                    <SolidColorBrush x:Key="AppBackgroundBrush" Color="#11161B" />
+                    <SolidColorBrush x:Key="AppSurfaceBrush" Color="#171D23" />
+                    <SolidColorBrush x:Key="AppSubtleSurfaceBrush" Color="#1D242B" />
+                    <SolidColorBrush x:Key="AppBorderBrush" Color="#303942" />
+                    <SolidColorBrush x:Key="AppPrimaryTextBrush" Color="#F2F5F7" />
+                    <SolidColorBrush x:Key="AppSecondaryTextBrush" Color="#A6B0BA" />
+                    <SolidColorBrush x:Key="AppAccentBrush" Color="#57B8AE" />
+                    <SolidColorBrush x:Key="AppAccentSurfaceBrush" Color="#183B39" />
+                </ResourceDictionary>
+            </ResourceDictionary.ThemeDictionaries>
+        </ResourceDictionary>
+    </Application.Resources>
+
+    <Application.DataTemplates>
+        <local:ViewLocator />
+    </Application.DataTemplates>
+
+    <Application.Styles>
+        <FluentTheme />
+    </Application.Styles>
+</Application>

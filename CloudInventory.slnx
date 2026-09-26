@@ -1,0 +1,13 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/CloudInventory.Application/CloudInventory.Application.csproj" />
+    <Project Path="src/CloudInventory.Desktop/CloudInventory.Desktop.csproj" />
+    <Project Path="src/CloudInventory.Domain/CloudInventory.Domain.csproj" />
+    <Project Path="src/CloudInventory.Infrastructure.Aws/CloudInventory.Infrastructure.Aws.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/CloudInventory.Application.Tests/CloudInventory.Application.Tests.csproj" />
+    <Project Path="tests/CloudInventory.Domain.Tests/CloudInventory.Domain.Tests.csproj" />
+    <Project Path="tests/CloudInventory.Infrastructure.Aws.Tests/CloudInventory.Infrastructure.Aws.Tests.csproj" />
+  </Folder>
+</Solution>
