@@ -6,6 +6,7 @@
     <Grid MinHeight="500">
         <StackPanel HorizontalAlignment="Center"
                     VerticalAlignment="Center"
+                    IsVisible="{Binding !ConnectionSession.IsConnected}"
                     MaxWidth="440"
                     Spacing="12">
             <Border Width="36"
@@ -30,6 +31,27 @@
                     HorizontalAlignment="Center"
                     Margin="0,8,0,0"
                     Padding="16,8" />
+        </StackPanel>
+
+        <StackPanel HorizontalAlignment="Center"
+                    VerticalAlignment="Center"
+                    IsVisible="{Binding ConnectionSession.IsConnected}"
+                    MaxWidth="440"
+                    Spacing="12">
+            <Border Width="36"
+                    Height="3"
+                    HorizontalAlignment="Center"
+                    Margin="0,0,0,8"
+                    Background="#25875A" />
+            <TextBlock Text="Connection ready"
+                       HorizontalAlignment="Center"
+                       FontSize="24"
+                       FontWeight="SemiBold"
+                       Foreground="{DynamicResource AppPrimaryTextBrush}" />
+            <TextBlock Text="{Binding ConnectionSession.SessionLabel}"
+                       HorizontalAlignment="Center"
+                       FontSize="13"
+                       Foreground="{DynamicResource AppSecondaryTextBrush}" />
         </StackPanel>
     </Grid>
 </UserControl>
